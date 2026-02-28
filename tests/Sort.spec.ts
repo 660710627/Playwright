@@ -1,0 +1,16 @@
+import { test, expect } from '@playwright/test';
+
+test('test', async ({ page }) => {
+  await page.goto('https://www.saucedemo.com/');
+  await page.locator('[data-test="username"]').click();
+  await page.locator('[data-test="username"]').fill('standard_user');
+  await page.locator('[data-test="password"]').click();
+  await page.locator('[data-test="password"]').fill('gg');
+  await page.locator('[data-test="login-button"]').click();
+  await expect(page.locator('[data-test="error"]')).toBeVisible();
+  await expect(page.locator('[data-test="error"]')).toContainText('do not match');
+  await page.locator('[data-test="username"]').click();
+  await expect(page.locator('[data-test="username"]')).not.toBeVisible();
+  await page.locator('[data-test="product-sort-container"]').selectOption('lohi');
+  await expect(page.locator('[data-test="inventory-item-price"]').first()).toHaveText('$7.99')
+});
